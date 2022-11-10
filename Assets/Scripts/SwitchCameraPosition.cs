@@ -40,6 +40,12 @@ public class SwitchCameraPosition : MonoBehaviour
     private void Update()
     {
         CameraMoveToPosition();
+
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR
+
+        if (Input.GetKeyDown(KeyCode.Escape)) ExitGame();
+
+#endif
     }
 
     private void CameraMoveToPosition()
@@ -71,4 +77,6 @@ public class SwitchCameraPosition : MonoBehaviour
     {
         _cameraTargetPoint = cameraFollowObject;
     }
+
+    private void ExitGame() => Application.Quit();
 }

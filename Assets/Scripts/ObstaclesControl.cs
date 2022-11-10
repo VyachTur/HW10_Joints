@@ -13,9 +13,15 @@ public class ObstaclesControl : MonoBehaviour
 
     private void Update()
     {
+
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR
+
         float rotationObstacle = Input.GetAxisRaw("Horizontal");
 
         PullObstacle(rotationObstacle);
+
+#endif
+
     }
 
     public void PullObstacle(float minusIsLeftPlusIsRight)

@@ -18,4 +18,9 @@ public class SwitchButtonText : MonoBehaviour
 
         if (buttonText != null) textObject.text = buttonText;
     }
+
+    private void OnDestroy()
+    {
+        _switchCamera.CameraSwitchPositionEvent -= OnCameraSwitch;
+    }
 }
