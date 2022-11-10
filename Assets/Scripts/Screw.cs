@@ -51,6 +51,8 @@ public class Screw : MonoBehaviour
         VerticalScrewScaleTransformation();
     }
 
+    public void ScrewRun() => StartCoroutine(CompressSpring());
+
     private void VerticalScrewScaleTransformation()
     {
         if (_lastPlatformVerticalPosition != _screwPlatform.transform.localPosition.y)
@@ -62,7 +64,6 @@ public class Screw : MonoBehaviour
         _screwTransform.localScale = new Vector3(_localX, _localY, _localZ);
     }
 
-    private void ScrewRun() => StartCoroutine(CompressSpring());
 
     private IEnumerator CompressSpring()
     {

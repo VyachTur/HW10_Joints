@@ -15,13 +15,18 @@ public class ObstaclesControl : MonoBehaviour
     {
         float rotationObstacle = Input.GetAxisRaw("Horizontal");
 
-        if (rotationObstacle < 0 && !_isRotateLeftPressed)
+        PullObstacle(rotationObstacle);
+    }
+
+    public void PullObstacle(float minusIsLeftPlusIsRight)
+    {
+        if (minusIsLeftPlusIsRight < 0 && !_isRotateLeftPressed)
         {
             _isRotateLeftPressed = true;
             StartCoroutine(RotateObstacle(_leftObstacle, -_angleRotation));
         }
 
-        if (rotationObstacle > 0 && !_isRotateRightPressed)
+        if (minusIsLeftPlusIsRight > 0 && !_isRotateRightPressed)
         {
             _isRotateRightPressed = true;
             StartCoroutine(RotateObstacle(_rightObstacle, _angleRotation));

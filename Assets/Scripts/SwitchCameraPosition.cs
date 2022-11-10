@@ -13,6 +13,7 @@ public class SwitchCameraPosition : MonoBehaviour
     public event Action<string> CameraSwitchPositionEvent;
 
     [SerializeField] private GameObject _menuRamActivate;
+    [SerializeField] private GameObject _menuPinballHelp;
     [SerializeField] private Transform _placeBoom;
     [SerializeField] private Transform _placePinball;
     private Positions _position = Positions.Boom;
@@ -55,12 +56,14 @@ public class SwitchCameraPosition : MonoBehaviour
         _position = Positions.Boom;
         SwitchCameraFollow(_placeBoom);
         _menuRamActivate.SetActive(true);
+        _menuPinballHelp.SetActive(false);
     }
 
     private void SetPlacePinball()
     {
         _position = Positions.Pinball;
         SwitchCameraFollow(_placePinball);
+        _menuPinballHelp.SetActive(true);
         _menuRamActivate.SetActive(false);
     }
 
