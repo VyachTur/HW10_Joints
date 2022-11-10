@@ -33,7 +33,7 @@ public class SwitchCameraPosition : MonoBehaviour
 
     private void Awake()
     {
-        SetPlaceBoom();
+        SetPlacePinball();
     }
 
     private void Update()

@@ -43,6 +43,11 @@ public class Screw : MonoBehaviour
             }
         }
 
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            ScrewRun();
+        }
+
         VerticalScrewScaleTransformation();
     }
 
