@@ -24,9 +24,9 @@ public class SlideBox : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Rigidbody ballRigidbody = collision.gameObject.GetComponent<Rigidbody>();
+        Ball ball = collision.gameObject.GetComponent<Ball>();
 
-        if (ballRigidbody != null)
+        if (ball != null)
         {
             transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * 0.9f, transform.localScale.z);
             _sliderSpeed *= 1.2f;
