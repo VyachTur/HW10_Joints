@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Screw : MonoBehaviour
@@ -9,6 +7,7 @@ public class Screw : MonoBehaviour
     [SerializeField] private Camera _mainCamera;
     [SerializeField] private float _speedScrewCompress;
     [SerializeField] private float _ballPushForce;
+    [SerializeField] private AudioSource _screwSound;
 
     private float _startScrewScaleVertical;
     private float _startPlatformVerticalPosition;
@@ -17,6 +16,9 @@ public class Screw : MonoBehaviour
     private float _localX;
     private float _localY;
     private float _localZ;
+
+    private float _timer;
+    private bool _isBallDoRun;
 
     private void Start()
     {
@@ -31,27 +33,25 @@ public class Screw : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
+        //    RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit, 200) && hit.transform?.gameObject.GetComponent<Screw>())
-            {
-                //Debug.DrawLine(ray.origin, hit.point);
-                ScrewRun();
-            }
-        }
+        //    if (Physics.Raycast(ray, out hit, 200) && hit.transform?.gameObject.GetComponent<Screw>())
+        //    {
+        //        //Debug.DrawLine(ray.origin, hit.point);
+        //        ScrewRun();
+        //    }
+        //}
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ScrewRun();
-        }
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    ScrewRun();
+        //}
 
         VerticalScrewScaleTransformation();
     }
-
-    public void ScrewRun() => StartCoroutine(CompressSpring());
 
     private void VerticalScrewScaleTransformation()
     {
@@ -64,37 +64,73 @@ public class Screw : MonoBehaviour
         _screwTransform.localScale = new Vector3(_localX, _localY, _localZ);
     }
 
-
-    private IEnumerator CompressSpring()
+    private void FixedUpdate()
     {
-        PlatformIsKinematicSelector(true);
-
-        for (float platformVerticalPosition = _startPlatformVerticalPosition; 
-                            platformVerticalPosition > _startPlatformVerticalPosition / 2f; platformVerticalPosition -= Time.deltaTime * _speedScrewCompress)
-        {
-            _screwPlatform.transform.localPosition = new Vector3(_screwPlatform.transform.localPosition.x,
-                                                            platformVerticalPosition,
-                                                            _screwPlatform.transform.localPosition.z);
-
-            yield return null;
-        }
-                
-        PlatformIsKinematicSelector(false);
+        PullBall();
     }
 
-    private void PlatformIsKinematicSelector(bool isKinematic)
+    private void PullBall()
     {
-        Rigidbody rigidbodyPlatform = _screwPlatform.GetComponent<Rigidbody>();
-        rigidbodyPlatform.isKinematic = isKinematic;
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        Rigidbody ballRB = other.GetComponent<Ball>()?.GetComponent<Rigidbody>();
-
-        if (ballRB)
+        if (_isBallDoRun)
         {
-            ballRB.AddForce(Vector3.up * _ballPushForce, ForceMode.Impulse);
+            _timer += Time.fixedDeltaTime;
+
+            if (_timer > 3f)
+            {
+                _timer = 0f;
+                _screwSound.Play();
+                _isBallDoRun = false;
+                return;
+            }
+
+            if (_timer > 1f)
+            {
+                ScrewCompress(_timer - 1f);
+            }
         }
     }
+
+    public void ScrewCompress(float forceKoefficient) => 
+        _screwPlatform.GetComponent<Rigidbody>().AddForce(Vector3.down * forceKoefficient * 60f, ForceMode.VelocityChange);
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.TryGetComponent<Ball>(out _))
+        {
+            _isBallDoRun = true;
+        }
+    }
+
+    //private IEnumerator CompressSpring()
+    //{
+    //    PlatformIsKinematicSelector(true);
+
+    //    for (float platformVerticalPosition = _startPlatformVerticalPosition; 
+    //                        platformVerticalPosition > _startPlatformVerticalPosition / 2f; platformVerticalPosition -= Time.deltaTime * _speedScrewCompress)
+    //    {
+    //        _screwPlatform.transform.localPosition = new Vector3(_screwPlatform.transform.localPosition.x,
+    //                                                        platformVerticalPosition,
+    //                                                        _screwPlatform.transform.localPosition.z);
+
+    //        yield return null;
+    //    }
+
+    //    PlatformIsKinematicSelector(false);
+    //}
+
+    //private void PlatformIsKinematicSelector(bool isKinematic)
+    //{
+    //    Rigidbody rigidbodyPlatform = _screwPlatform.GetComponent<Rigidbody>();
+    //    rigidbodyPlatform.isKinematic = isKinematic;
+    //}
+
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    Rigidbody ballRB = other.GetComponent<Ball>()?.GetComponent<Rigidbody>();
+
+    //    if (ballRB)
+    //    {
+    //        ballRB.AddForce(Vector3.up * _ballPushForce, ForceMode.Impulse);
+    //    }
+    //}
 }

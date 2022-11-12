@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ObstaclesControl : MonoBehaviour
@@ -7,6 +6,7 @@ public class ObstaclesControl : MonoBehaviour
     [SerializeField] private GameObject _leftObstacle;
     [SerializeField] private GameObject _rightObstacle;
     [SerializeField] private float _angleRotation = 30f;
+    [SerializeField] private AudioSource _pullObstacleSound;
 
     private bool _isRotateLeftPressed;
     private bool _isRotateRightPressed;
@@ -29,12 +29,14 @@ public class ObstaclesControl : MonoBehaviour
         if (minusIsLeftPlusIsRight < 0 && !_isRotateLeftPressed)
         {
             _isRotateLeftPressed = true;
+            _pullObstacleSound.Play();
             StartCoroutine(RotateObstacle(_leftObstacle, -_angleRotation));
         }
 
         if (minusIsLeftPlusIsRight > 0 && !_isRotateRightPressed)
         {
             _isRotateRightPressed = true;
+            _pullObstacleSound.Play();
             StartCoroutine(RotateObstacle(_rightObstacle, _angleRotation));
         }
     }
