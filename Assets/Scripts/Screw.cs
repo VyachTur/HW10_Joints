@@ -33,23 +33,6 @@ public class Screw : MonoBehaviour
 
     private void Update()
     {
-        //if (Input.GetMouseButtonDown(0))
-        //{
-        //    Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
-        //    RaycastHit hit;
-
-        //    if (Physics.Raycast(ray, out hit, 200) && hit.transform?.gameObject.GetComponent<Screw>())
-        //    {
-        //        //Debug.DrawLine(ray.origin, hit.point);
-        //        ScrewRun();
-        //    }
-        //}
-
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    ScrewRun();
-        //}
-
         VerticalScrewScaleTransformation();
     }
 
@@ -100,37 +83,4 @@ public class Screw : MonoBehaviour
             _isBallDoRun = true;
         }
     }
-
-    //private IEnumerator CompressSpring()
-    //{
-    //    PlatformIsKinematicSelector(true);
-
-    //    for (float platformVerticalPosition = _startPlatformVerticalPosition; 
-    //                        platformVerticalPosition > _startPlatformVerticalPosition / 2f; platformVerticalPosition -= Time.deltaTime * _speedScrewCompress)
-    //    {
-    //        _screwPlatform.transform.localPosition = new Vector3(_screwPlatform.transform.localPosition.x,
-    //                                                        platformVerticalPosition,
-    //                                                        _screwPlatform.transform.localPosition.z);
-
-    //        yield return null;
-    //    }
-
-    //    PlatformIsKinematicSelector(false);
-    //}
-
-    //private void PlatformIsKinematicSelector(bool isKinematic)
-    //{
-    //    Rigidbody rigidbodyPlatform = _screwPlatform.GetComponent<Rigidbody>();
-    //    rigidbodyPlatform.isKinematic = isKinematic;
-    //}
-
-    //private void OnTriggerExit(Collider other)
-    //{
-    //    Rigidbody ballRB = other.GetComponent<Ball>()?.GetComponent<Rigidbody>();
-
-    //    if (ballRB)
-    //    {
-    //        ballRB.AddForce(Vector3.up * _ballPushForce, ForceMode.Impulse);
-    //    }
-    //}
 }
