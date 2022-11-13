@@ -4,9 +4,6 @@ public class Screw : MonoBehaviour
 {
     [SerializeField] private Transform _screwTransform;
     [SerializeField] private GameObject _screwPlatform;
-    [SerializeField] private Camera _mainCamera;
-    [SerializeField] private float _speedScrewCompress;
-    [SerializeField] private float _ballPushForce;
     [SerializeField] private AudioSource _screwSound;
 
     private float _startScrewScaleVertical;
@@ -61,7 +58,7 @@ public class Screw : MonoBehaviour
             if (_timer > 3f)
             {
                 _timer = 0f;
-                _screwSound.Play();
+                _screwSound?.Play();
                 _isBallDoRun = false;
                 return;
             }

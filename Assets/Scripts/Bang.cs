@@ -6,7 +6,7 @@ public class Bang : MonoBehaviour
     [SerializeField] private float _power = 15f;
     [SerializeField] private float _radius = 1f;
     [SerializeField] private float _upForce = 0f;
-    [SerializeField] private AudioSource _bangSound;
+    [SerializeField] private AudioSource _bangCollisionSound;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -14,8 +14,8 @@ public class Bang : MonoBehaviour
 
         if (ballRigidbody != null)
         {
-            _particleSystemBang.Play();
-            _bangSound.Play();
+            _particleSystemBang?.Play();
+            _bangCollisionSound?.Play();
             ballRigidbody.AddExplosionForce(_power, transform.position, _radius, _upForce, ForceMode.Impulse);
         }
     }

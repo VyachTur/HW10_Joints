@@ -7,7 +7,6 @@ public enum Positions
     Pinball
 }
 
-
 public class SwitchCameraPosition : MonoBehaviour
 {
     public event Action<string> CameraSwitchPositionEvent;

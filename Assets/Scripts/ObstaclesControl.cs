@@ -29,14 +29,14 @@ public class ObstaclesControl : MonoBehaviour
         if (minusIsLeftPlusIsRight < 0 && !_isRotateLeftPressed)
         {
             _isRotateLeftPressed = true;
-            _pullObstacleSound.Play();
+            _pullObstacleSound?.Play();
             StartCoroutine(RotateObstacle(_leftObstacle, -_angleRotation));
         }
 
         if (minusIsLeftPlusIsRight > 0 && !_isRotateRightPressed)
         {
             _isRotateRightPressed = true;
-            _pullObstacleSound.Play();
+            _pullObstacleSound?.Play();
             StartCoroutine(RotateObstacle(_rightObstacle, _angleRotation));
         }
     }
