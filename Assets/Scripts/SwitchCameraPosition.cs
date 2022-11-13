@@ -49,7 +49,7 @@ public class SwitchCameraPosition : MonoBehaviour
 
     private void CameraMoveToPosition()
     {
-        if ((transform.position - _cameraTargetPoint.position).magnitude > 0.02f)
+        if ((transform.position - _cameraTargetPoint.position).magnitude > Constants.MovableInaccuracy)
         {
             transform.position = Vector3.Lerp(transform.position, _cameraTargetPoint.position, Time.deltaTime * _followSpeed);
             transform.rotation = Quaternion.Lerp(transform.rotation, _cameraTargetPoint.rotation, Time.deltaTime * _rotateSpeed);

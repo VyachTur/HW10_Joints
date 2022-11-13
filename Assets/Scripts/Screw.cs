@@ -5,6 +5,9 @@ public class Screw : MonoBehaviour
     [SerializeField] private Transform _screwTransform;
     [SerializeField] private GameObject _screwPlatform;
     [SerializeField] private AudioSource _screwSound;
+    [SerializeField] private float _screwCompressForce = 60f;
+
+    private Rigidbody _screwPlatformRigidbody;
 
     private float _startScrewScaleVertical;
     private float _startPlatformVerticalPosition;
@@ -19,6 +22,8 @@ public class Screw : MonoBehaviour
 
     private void Start()
     {
+        _screwPlatformRigidbody = _screwPlatform.GetComponent<Rigidbody>();
+
         _startPlatformVerticalPosition = _screwPlatform.transform.localPosition.y;
         _lastPlatformVerticalPosition = _startPlatformVerticalPosition;
         _startScrewScaleVertical = _screwTransform.localScale.z;
@@ -55,23 +60,31 @@ public class Screw : MonoBehaviour
         {
             _timer += Time.fixedDeltaTime;
 
-            if (_timer > 3f)
-            {
-                _timer = 0f;
-                _screwSound?.Play();
-                _isBallDoRun = false;
-                return;
-            }
-
-            if (_timer > 1f)
-            {
-                ScrewCompress(_timer - 1f);
-            }
+            ReleaseScrew();
+            MakeSpringCompress();
         }
     }
 
-    public void ScrewCompress(float forceKoefficient) => 
-        _screwPlatform.GetComponent<Rigidbody>().AddForce(Vector3.down * forceKoefficient * 60f, ForceMode.VelocityChange);
+    private void ReleaseScrew()
+    {
+        if (_timer > Constants.TimeForSpringRelease)
+        {
+            _timer = 0f;
+            _screwSound?.Play();
+            _isBallDoRun = false;
+        }
+    }
+
+    private void MakeSpringCompress()
+    {
+        if (_timer > Constants.TimeForSpringCompress)
+        {
+            SpringCompress((_timer - Constants.TimeForSpringCompress) * _screwCompressForce);
+        }
+    }
+
+    private void SpringCompress(float forceKoefficient) =>
+        _screwPlatformRigidbody.AddForce(Vector3.down * forceKoefficient, ForceMode.VelocityChange);
 
     private void OnTriggerEnter(Collider other)
     {

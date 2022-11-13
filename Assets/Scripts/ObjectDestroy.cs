@@ -9,6 +9,8 @@ public class ObjectDestroy : MonoBehaviour
     [SerializeField] private float _explosionRadius = 1.5f;
     [SerializeField] private float _explosionUpForce = 0.2f;
     [SerializeField] private float _explosionPowerCoefficient = 0.3f;
+    [SerializeField] private float _secondsForBoxDestroyed = 15f;
+
     private float _explosionPower = 1.2f;
 
     private void OnCollisionEnter(Collision collision)
@@ -50,6 +52,6 @@ public class ObjectDestroy : MonoBehaviour
 
         GameObject destroyedGO = Instantiate(_destroyedObjectPrefab, transform.position, transform.rotation);
 
-        Destroy(destroyedGO, 15f);
+        Destroy(destroyedGO, _secondsForBoxDestroyed);
     }
 }
